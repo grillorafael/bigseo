@@ -7,6 +7,7 @@ BigSEO is a simple middleware for expressjs to handle crawler requests.
 ```npm install bigseo --save```
 
 Things you can make crawlers see if you use BigSEO:
+
 1. AngularJS rendered pages
 1. Disqus comments
 1. Facebook comments
@@ -14,6 +15,7 @@ Things you can make crawlers see if you use BigSEO:
 1. etc
 
 Things you can do if you use BigSEO:
+
 1. Add crawlers meta tags via javascript
 1. Load your content through AJAX
 1. Write AngularJS applications with no worries about SEO
