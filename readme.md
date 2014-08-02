@@ -2,7 +2,7 @@
 
 BigSEO is a ExpresJS module built for apps who need a SEO Engine exclusively for web crawlers such as Google, Bing, Facebook, etc.
 
-It is simple to attach to your pre existing ExpressJS application.
+BigSEO is a simple middleware for expressjs to handle crawler requests.
 
 ```npm install bigseo --save```
 
@@ -10,20 +10,21 @@ It is simple to attach to your pre existing ExpressJS application.
 1. List robots user agents
 1. Implement Express 3.x compatibility
 1. Work without jquery
+1. Other language compatibility
 
 ## ExpressJS 4.x
 
+It is very simple to use BigSEO. Under your server application, insert this code snippet right before your route definitions. From now on, we will route every crawler request directly to an existing cache. If there is no cache, we will proceed with the request to the default response.
+
 ```javascript
 var bigSeo = require('bigseo')();
-.
-.
-.
+// Your application config
 app.use(bigSeo.run());
-app.use('/save/cache', bigSeo.cache()); // You can change this route if you want
+app.use('/', bigSeo.cache());
 // Your application routes
 ```
 
-BigSEO have a few configurable parameters that you can put in the constructor
+BigSEO have a few optional configurations that you can put in the constructor.
 
 ```javascript
 // Default values
@@ -34,22 +35,21 @@ opts = {
 };
 ```
 
+Ex: ```var bigSeo = require('bigseo')({log: false});```
+
 At the moment you start your express application, BigSEO will create by default a ```caches/``` where it will save the cached content.
 
 The cache name is a base64.html generated from the saved url.
 
-## Browser and Saving Cache
+## Saving your cache
 
-BigSEO also exposes to the browser a BigSEO function under ```/bigseo/bigseo.js```. So you can import this on your layout file
+Now, in order to build your cache, just put this tag on the html page you want to be ativated.
 
-```jade
-script(src='/bigseo/bigseo.js')
-```
 ```html
 <script src='/bigseo/bigseo.js'></script>
 ```
 
-The client follows these steps:
+And run the save method when you think the DOM is ready to be saved.
 ```javascript
 var bigSeo = new BigSEO();
 bigSeo.save(); // Call when you think its ready to save a new cache
@@ -65,4 +65,29 @@ opts = {
 };
 ```
 
-**REMEBER: IF YOU CHANGE THE SAVE PATH ON YOU EXPRESS APPLICATION, YOU ALSO HAVE TO CHANGE IN THE CLIENTS SETTING**
+Ex: ```var bigSeo = new BigSEO({url: '/cache'});```
+
+**REMEBER: IF YOU CHANGE THE SAVE PATH ON YOU EXPRESS APPLICATION, YOU ALSO HAVE TO CHANGE IN THE CLIENT SETTINGS**
+
+## LICENSE
+The MIT License (MIT)
+
+Copyright (c) [2014] [Rafael Grillo Abreu]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
