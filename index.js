@@ -17,6 +17,7 @@ function BigSEO(opts) {
 
     this.ua = {
         "Ruby": true,
+        'undefined': true,
         "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)": true,
         "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)": true,
         "Mozilla/5.0 (compatible; Genieo/1.0 http://www.genieo.com/webfilter.html)": true,
