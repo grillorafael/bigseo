@@ -1,4 +1,4 @@
-# BigSEO (WIP)
+# BigSEO
 
 BigSEO is a ExpresJS module built for apps who need a SEO Engine exclusively for web crawlers such as Google, Bing, Facebook, etc.
 
@@ -20,7 +20,6 @@ It is very simple to use BigSEO. Under your server application, insert this code
 var bigSeo = require('bigseo')();
 // Your application config
 app.use(bigSeo.run());
-app.use('/', bigSeo.cache());
 // Your application routes
 ```
 
@@ -68,6 +67,13 @@ opts = {
 Ex: ```var bigSeo = new BigSEO({url: '/cache'});```
 
 **Warning: If you change the save path on your express application, your also have to change in the client settings**
+
+## user-agents reference
+The user agents reference can be found [here](http://user-agent-string.info/list-of-ua/bots).
+
+You can find the list of implemented user agents [here](https://github.com/grillorafael/bigseo/blob/master/index.js).
+
+Please **contribute** by adding more relevant items to the list!  
 
 ## LICENSE
 The MIT License (MIT)
