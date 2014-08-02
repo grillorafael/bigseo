@@ -5,7 +5,7 @@ var _ = require('underscore'),
 
 function BigSEO(opts) {
     this.TAG = "BigSEO";
-    
+
     this.opts = {
         log: true,
         cache_path: 'caches',
@@ -13,7 +13,8 @@ function BigSEO(opts) {
     };
 
     this.ua = {
-        "Ruby": true
+        "Ruby": true,
+        "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)": true
     };
 
     if(!fs.existsSync(this.opts.cache_path)) {
@@ -64,7 +65,7 @@ BigSEO.prototype.run = function() {
         var url = req.protocol + "://" + req.headers.host + req.originalUrl;
         if (req.method == "GET" && _this.matchUA(ua) && _this.hasCacheFor(url)) {
             _this.debug('Cache Hit for ' + url);
-            res.status(200).send(_this.getCacheContentFor(url));
+            res.send(_this.getCacheContentFor(url));
         } else {
             _this.debug('Cache Miss for ' + url);
             next();
@@ -86,7 +87,7 @@ BigSEO.prototype.run = function() {
 };
 
 BigSEO.prototype.getCacheContentFor = function(url) {
-    return fs.readFileSync(this.cachePathFor(url));
+    return fs.readFileSync(this.cachePathFor(this.encodeURL(url))).toString('utf8');
 };
 
 BigSEO.prototype.debug = function(mixed) {
@@ -96,7 +97,7 @@ BigSEO.prototype.debug = function(mixed) {
 };
 
 BigSEO.prototype.hasCacheFor = function(url) {
-    return fs.existsSync(this.cachePathFor(url));
+    return fs.existsSync(this.cachePathFor(this.encodeURL(url)));
 };
 
 BigSEO.prototype.cachePathFor = function(encodedUrl) {

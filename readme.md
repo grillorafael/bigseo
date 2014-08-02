@@ -67,7 +67,7 @@ opts = {
 
 Ex: ```var bigSeo = new BigSEO({url: '/cache'});```
 
-**REMEBER: IF YOU CHANGE THE SAVE PATH ON YOU EXPRESS APPLICATION, YOU ALSO HAVE TO CHANGE IN THE CLIENT SETTINGS**
+**Warning: If you change the save path on your express application, your also have to change in the client settings**
 
 ## LICENSE
 The MIT License (MIT)
