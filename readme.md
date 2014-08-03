@@ -28,6 +28,11 @@ Things you can do if you use BigSEO:
 1. Work without jquery
 1. Other language compatibility
 
+## How it works
+When you receive a new request, this request is processed in BigSEO's middleware to detect whether the request if from a browser or a Bot. If we detect that the request came from a Bot, we check if there is a cached version of the requested URL. If there is, we deliver the cache, if there is not, we proceed with the request.
+
+The cache is generate by users when they navigate your website so you can always have a updated version of the page.
+
 ## ExpressJS 4.x
 
 It is very simple to use BigSEO. Under your server application, insert this code snippet right before your route definitions. From now on, we will route every crawler request directly to an existing cache. If there is no cache, we will proceed with the request to the default response.
