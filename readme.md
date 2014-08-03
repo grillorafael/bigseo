@@ -84,6 +84,31 @@ Ex: ```var bigSeo = new BigSEO({url: '/cache'});```
 
 **Warning: If you change the save path on your express application, your also have to change in the client settings**
 
+## Using with angularjs
+Import BigSEO's AngularJS module
+```html
+<script src='/bigseo/angular-bigseo.js'></script>
+```
+
+Add to your application modules
+```javascript
+var yourApp = angular.module('yourApp', ['bigseo']);
+```
+
+Add to your Controller and call it when you have everything loaded
+```javascript
+angular.module('test').controller('IndexCtrl', ['$scope', '$location', 'API', 'bigseo', function($scope, $location, API, bigseo) {
+    API.list().
+        success(function (data, status, headers, config) {
+            $scope.beers = data.beers;
+            bigseo.save();
+        }).
+        error(function (data, status, headers, config) {
+        });
+}]);
+
+```
+
 ## user-agents reference
 The user agents reference can be found [here](http://user-agent-string.info/list-of-ua/bots).
 

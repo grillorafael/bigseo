@@ -17,6 +17,7 @@ function BigSEO(opts) {
 
     this.ua = {
         "Ruby": true,
+        "bigseo/test": true,
         'undefined': true,
         "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)": true,
         "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)": true,
@@ -110,6 +111,17 @@ BigSEO.prototype.run = function() {
 
     router.get('/bigseo/bigseo.js', function(req, res) {
         fs.readFile(currentDir + '/static/bigseo.js', function(err, data) {
+            if(!err) {
+                res.status(200).send(data);
+            }
+            else {
+                res.send(404);
+            }
+        });
+    });
+
+    router.get('/bigseo/angular-bigseo.js', function(req, res) {
+        fs.readFile(currentDir + '/static/angular-bigseo.js', function(err, data) {
             if(!err) {
                 res.status(200).send(data);
             }
