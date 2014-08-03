@@ -24,7 +24,6 @@ Things you can do if you use BigSEO:
 
 ###TODO:
 1. List robots user agents
-1. Implement Express 3.x compatibility
 1. Work without jquery
 1. Other language compatibility
 
@@ -60,6 +59,18 @@ Ex: ```var bigSeo = require('bigseo')({log: false});```
 At the moment you start your express application, BigSEO will create by default a ```caches/``` where it will save the cached content.
 
 The cache name is a base64.html generated from the saved url.
+
+## ExpressJS 3.x
+Similar to 4.x
+```javascript
+var bigSeo = require('bigseo')();
+// Your app config
+app.use(bigSeo.middleware);
+app.post('/save/cache', bigSeo.cache);
+app.get('/bigseo/bigseo.js', bigSeo.staticJS);
+app.get('/bigseo/angular-bigseo.js', bigSeo.angularJS);
+// Your app routes
+```
 
 ## Saving your cache
 

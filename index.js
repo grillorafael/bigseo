@@ -99,38 +99,36 @@ BigSEO.prototype.middleware = function(req, res, next) {
     }
 };
 
+BigSEO.prototype.staticJS = function(req, res) {
+    fs.readFile(__dirname + '/static/bigseo.js', function(err, data) {
+        if(!err) {
+            res.status(200).send(data);
+        }
+        else {
+            res.send(404);
+        }
+    });
+};
+
+BigSEO.prototype.angularJS = function(req, res) {
+    fs.readFile(__dirname + '/static/angular-bigseo.js', function(err, data) {
+        if(!err) {
+            res.status(200).send(data);
+        }
+        else {
+            res.send(404);
+        }
+    });
+};
+
 
 BigSEO.prototype.run = function() {
-    var currentDir = __dirname;
-
     var express = require('express');
     var router = express.Router();
-
     router.use(this.middleware);
     router.post(this.opts.cache_url, this.cache);
-
-    router.get('/bigseo/bigseo.js', function(req, res) {
-        fs.readFile(currentDir + '/static/bigseo.js', function(err, data) {
-            if(!err) {
-                res.status(200).send(data);
-            }
-            else {
-                res.send(404);
-            }
-        });
-    });
-
-    router.get('/bigseo/angular-bigseo.js', function(req, res) {
-        fs.readFile(currentDir + '/static/angular-bigseo.js', function(err, data) {
-            if(!err) {
-                res.status(200).send(data);
-            }
-            else {
-                res.send(404);
-            }
-        });
-    });
-
+    router.get('/bigseo/bigseo.js', this.staticJS);
+    router.get('/bigseo/angular-bigseo.js', this.angularJS);
     return router;
 };
 
