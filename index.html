@@ -70,13 +70,24 @@
 <li>Load your content through AJAX</li>
 <li>Write AngularJS applications with no worries about SEO</li>
 <li>etc</li>
-</ol><h3>
-<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO:</h3>
+</ol>
+
+<h2><a name="release-notes" class="anchor" href="#release-notes"><span class="octicon octicon-link"></span></a>Release notes:</h2>
+<ol>
+    <li><strong>0.5.0</strong></li>
+    <ol>
+        <li>Independent angularjs module (You don't need to import bigseo.js anymore)</li>
+        <li>Cache validation. Now your cache file, by default, is valid for 24 hours. You can change this to any value you want in hours. (Use 0 to regenerate your cache everytime)</li>
+    </ol>
+</ol>
+
+
+<h3><a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO:</h3>
 
 <ol>
-<li>List robots user agents</li>
-<li>Work without jquery</li>
-<li>Other language compatibility</li>
+<li>List all relevant robot's user-agents</li>
+<li>Enhance browser lib with non-jquery features and better callbacks</li>
+<li>Extend to work with other languages (PHP mostly)</li>
 </ol><h2>
 <a name="how-it-works" class="anchor" href="#how-it-works"><span class="octicon octicon-link"></span></a>How it works</h2>
 
@@ -100,8 +111,10 @@
 <div class="highlight highlight-javascript"><pre><span class="c1">// Default values</span>
 <span class="nx">opts</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">log</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">cache_path</span><span class="o">:</span> <span class="s1">'caches'</span><span class="p">,</span>
     <span class="nx">cache_url</span><span class="o">:</span> <span class="s1">'/save/cache'</span><span class="p">,</span>
-    <span class="nx">cache_path</span><span class="o">:</span> <span class="s1">'caches'</span>
+    <span class="nx">valid_url</span><span class="o">:</span> <span class="s1">'/valid/cache'</span><span class="p">,</span>
+    <span class="nx">valid_for</span><span class="o">:</span> <span class="kc">24</span>
 <span class="p">};</span>
 </pre></div>
 
@@ -120,6 +133,7 @@
 <span class="c1">// Your app config</span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bigSeo</span><span class="p">.</span><span class="nx">middleware</span><span class="p">);</span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/save/cache'</span><span class="p">,</span> <span class="nx">bigSeo</span><span class="p">.</span><span class="nx">cache</span><span class="p">);</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/valid/cache'</span><span class="p">,</span> <span class="nx">bigSeo</span><span class="p">.</span><span class="nx">valid</span><span class="p">);</span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/bigseo/bigseo.js'</span><span class="p">,</span> <span class="nx">bigSeo</span><span class="p">.</span><span class="nx">staticJS</span><span class="p">);</span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/bigseo/angular-bigseo.js'</span><span class="p">,</span> <span class="nx">bigSeo</span><span class="p">.</span><span class="nx">angularJS</span><span class="p">);</span>
 <span class="c1">// Your app routes</span>
