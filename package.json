@@ -1,0 +1,19 @@
+{
+  "name": "bigseo",
+  "version": "0.5.0",
+  "description": "BigSEO is a ExpresJS module built for apps who need a SEO Engine exclusively for web crawlers such as Google, Bing, Facebook, etc.",
+  "keywords": "seo, engine, express, cache, crawler, bigseo, angularjs",
+  "main": "index.js",
+  "author": "Rafael Grillo Abreu <grillorafael@gmail.com> (http://rgrillo.com/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grillorafael/bigseo"
+  },
+  "dependencies": {
+    "underscore": "^1.6.0"
+  },
+  "devDependencies": {
+    "express": "^4.7.2"
+  }
+}
