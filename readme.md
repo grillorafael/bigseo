@@ -21,11 +21,15 @@ Things you can do if you use BigSEO:
 1. Write AngularJS applications with no worries about SEO
 1. etc
 
+## Release notes
+1. **0.5.0**
+    1. Independent angularjs module (You don't need to import bigseo.js anymore)
+    1. Cache validation. Now your cache file, by default, is valid for 24 hours. You can change this to any value you want in hours. (Use 0 to regenerate your cache everytime)
 
 ###TODO:
-1. List robots user agents
-1. Work without jquery
-1. Other language compatibility
+1. List all relevant robot's user-agents
+1. Enhance browser lib with non-jquery features and better callbacks
+1. Extend to work with other languages (PHP mostly)
 
 ## How it works
 When you receive a new request, this request is processed in BigSEO's middleware to detect whether the request if from a browser or a Bot. If we detect that the request came from a Bot, we check if there is a cached version of the requested URL. If there is, we deliver the cache, if there is not, we proceed with the request.
@@ -48,9 +52,11 @@ BigSEO have a few optional configurations that you can put in the constructor.
 ```javascript
 // Default values
 opts = {
-    log: true,
+    log: process.env.NODE_ENV == 'production' ? false : true,
+    cache_path: 'caches',
     cache_url: '/save/cache',
-    cache_path: 'caches'
+    valid_url: '/valid/cache',
+    valid_for: 24 // hours
 };
 ```
 
@@ -67,6 +73,7 @@ var bigSeo = require('bigseo')();
 // Your app config
 app.use(bigSeo.middleware);
 app.post('/save/cache', bigSeo.cache);
+app.post('/valid/cache', bigSeo.valid);
 app.get('/bigseo/bigseo.js', bigSeo.staticJS);
 app.get('/bigseo/angular-bigseo.js', bigSeo.angularJS);
 // Your app routes
@@ -101,6 +108,7 @@ Ex: ```var bigSeo = new BigSEO({url: '/cache'});```
 **Warning: If you change the save path on your express application, your also have to change in the client settings**
 
 ## Using with angularjs
+
 Import BigSEO's AngularJS module
 ```html
 <script src='/bigseo/angular-bigseo.js'></script>

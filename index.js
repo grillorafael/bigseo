@@ -12,7 +12,9 @@ function BigSEO(opts) {
     this.opts = {
         log: process.env.NODE_ENV == 'production' ? false : true,
         cache_path: 'caches',
-        cache_url: '/save/cache'
+        cache_url: '/save/cache',
+        valid_url: '/valid/cache',
+        valid_for: 24 // hours
     };
 
     this.ua = {
@@ -47,7 +49,7 @@ function BigSEO(opts) {
         if(!exists) {
             fs.mkdir(_this.opts.cache_path, function(err) {
                 if(err) {
-                    _this.debug(err);
+                    _this.log(err);
                 }
             });
         }
@@ -59,16 +61,16 @@ BigSEO.prototype.cache = function(req, res) {
     var rawUrl = req.body.url;
     var url = _this.encodeURL(rawUrl);
 
-    _this.debug("Saving cache: " + _this.cachePathFor(url));
+    _this.log("Saving cache: " + _this.cachePathFor(url));
 
     fs.writeFile(_this.cachePathFor(url), body, function(err) {
         if(err) {
             console.log(err);
-            _this.debug("Error saving cache for: " + rawUrl);
+            _this.log("Error saving cache for: " + rawUrl);
             res.send(500);
         }
         else {
-            _this.debug("New cache for url: " + rawUrl);
+            _this.log("New cache for url: " + rawUrl);
             res.send(200);
         }
     });
@@ -76,25 +78,25 @@ BigSEO.prototype.cache = function(req, res) {
 
 BigSEO.prototype.middleware = function(req, res, next) {
     var ua = req.headers['user-agent'];
-    _this.debug("UA: " + ua);
+    _this.log("UA: " + ua);
 
     var url = req.protocol + "://" + req.headers.host + req.originalUrl;
     if (req.method == "GET" && _this.matchUA(ua)) {
-        _this.debug("Verifying if has cache for: " + url);
+        _this.log("Verifying if has cache for: " + url);
         _this.hasCacheFor(url, function(hasCache) {
             if(hasCache) {
-                _this.debug('Cache Hit for ' + url);
+                _this.log('Cache Hit for ' + url);
                 _this.getCacheContentFor(url, function(data) {
                     res.send(data);
                 });
             }
             else {
-                _this.debug('Cache Miss for ' + url);
+                _this.log('Cache Miss for ' + url);
                 next();
             }
         });
     } else {
-        _this.debug('Cache Miss for ' + url);
+        _this.log('Cache Miss for ' + url);
         next();
     }
 };
@@ -121,15 +123,49 @@ BigSEO.prototype.angularJS = function(req, res) {
     });
 };
 
+BigSEO.prototype.valid = function(req, res) {
+    var url = req.body.url;
+    _this.validCacheFor(url, function(valid) {
+        res.json({
+            valid: valid
+        });
+    });
+};
+
 
 BigSEO.prototype.run = function() {
     var express = require('express');
     var router = express.Router();
     router.use(this.middleware);
     router.post(this.opts.cache_url, this.cache);
+    router.post(this.opts.valid_url, this.valid);
     router.get('/bigseo/bigseo.js', this.staticJS);
     router.get('/bigseo/angular-bigseo.js', this.angularJS);
     return router;
+};
+
+BigSEO.prototype.validCacheFor = function(url, cb) {
+    this.log('Verifying cache validation for: ' + url);
+
+    this.hasCacheFor(url, function(has) {
+        if(has) {
+            fs.stat(_this.cachePathFor(_this.encodeURL(url)), function(err, stat) {
+                if(!err) {
+                    var lastModified = stat.mtime;
+                    var now = new Date();
+                    var diff = (now.getTime() - lastModified.getTime()) / 1000; // seconds
+                    diff = diff / (60 * 60) ; // hours
+                    cb(diff < _this.opts.valid_for);
+                }
+                else {
+                    cb(false);
+                }
+            });
+        }
+        else {
+            cb(false);
+        }
+    });
 };
 
 BigSEO.prototype.getCacheContentFor = function(url, cb) {
@@ -138,7 +174,7 @@ BigSEO.prototype.getCacheContentFor = function(url, cb) {
     });
 };
 
-BigSEO.prototype.debug = function(mixed) {
+BigSEO.prototype.log = function(mixed) {
     if (this.opts.log) {
         console.log(this.TAG, mixed);
     }

@@ -1,6 +1,7 @@
 function BigSEO(opts) {
     this.opts = {
-        url: '/save/cache'
+        url: '/save/cache',
+        valid_url: '/valid/cache'
     };
 };
 
@@ -18,13 +19,25 @@ BigSEO.prototype.save = function(success, error) {
 
     if(jQuery) {
         $.ajax({
-            url: this.opts.url,
+            url: this.opts.valid_url,
             method: "POST",
             data: {
-                dom: dom,
                 url: url
             },
-            success: success,
+            success: function(data) {
+                if(!data.valid) {
+                    $.ajax({
+                        url: this.opts.url,
+                        method: "POST",
+                        data: {
+                            dom: dom,
+                            url: url
+                        },
+                        success: success,
+                        error: error
+                    });
+                }
+            },
             error: error
         });
     }
