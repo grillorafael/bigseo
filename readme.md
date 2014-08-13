@@ -22,6 +22,8 @@ Things you can do if you use BigSEO:
 1. etc
 
 ## Release notes
+1. **0.6.2**
+    1. Verifying cache validation before saving
 1. **0.6.1**
     1. Fixing root url hashbang that wasn't matching
 1. **0.6.0**

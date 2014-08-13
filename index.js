@@ -59,23 +59,28 @@ function BigSEO(opts) {
 BigSEO.prototype.cache = function(req, res) {
     var body = req.body.dom;
     var rawUrl = req.body.url;
-
-    rawUrl = _this.processUrl(rawUrl);
-
     var url = _this.encodeURL(rawUrl);
 
-    _this.log("Saving cache for: " + rawUrl);
-    _this.log("Saving at: " + _this.cachePathFor(url));
+    _this.validCacheFor(rawUrl, function(valid) {
+        if(!valid) {
+            _this.log("Saving cache for: " + rawUrl);
+            _this.log("Saving at: " + _this.cachePathFor(url));
 
-    fs.writeFile(_this.cachePathFor(url), body, function(err) {
-        if(err) {
-            console.log(err);
-            _this.log("Error saving cache for: " + rawUrl);
-            res.send(500);
+            fs.writeFile(_this.cachePathFor(url), body, function(err) {
+                if(err) {
+                    console.log(err);
+                    _this.log("Error saving cache for: " + rawUrl);
+                    res.send(500);
+                }
+                else {
+                    _this.log("New cache for url: " + rawUrl);
+                    res.send(200);
+                }
+            });
         }
         else {
-            _this.log("New cache for url: " + rawUrl);
-            res.send(200);
+            _this.log("Cache still valid for: " + rawUrl);
+            res.send(500);
         }
     });
 };
@@ -85,7 +90,6 @@ BigSEO.prototype.middleware = function(req, res, next) {
     _this.log("UA: " + ua);
 
     var url = req.protocol + "://" + req.headers.host + req.originalUrl;
-    console.log(url);
 
     url = _this.processUrl(url);
 
@@ -149,6 +153,7 @@ BigSEO.prototype.angularJS = function(req, res) {
 
 BigSEO.prototype.valid = function(req, res) {
     var url = req.body.url;
+    url = _this.processUrl(url);
     _this.validCacheFor(url, function(valid) {
         res.json({
             valid: valid
