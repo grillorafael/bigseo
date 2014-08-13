@@ -10,7 +10,7 @@ function BigSEO(opts) {
     this.TAG = "BigSEO";
 
     this.opts = {
-        log: process.env.NODE_ENV == 'production' ? false : true,
+        log: process.env.NODE_ENV != 'production',
         cache_path: 'caches',
         cache_url: '/save/cache',
         valid_url: '/valid/cache',
@@ -60,9 +60,12 @@ BigSEO.prototype.cache = function(req, res) {
     var body = req.body.dom;
     var rawUrl = req.body.url;
 
+    rawUrl = _this.processUrl(rawUrl);
+
     var url = _this.encodeURL(rawUrl);
 
-    _this.log("Saving cache: " + _this.cachePathFor(url));
+    _this.log("Saving cache for: " + rawUrl);
+    _this.log("Saving at: " + _this.cachePathFor(url));
 
     fs.writeFile(_this.cachePathFor(url), body, function(err) {
         if(err) {
@@ -82,7 +85,10 @@ BigSEO.prototype.middleware = function(req, res, next) {
     _this.log("UA: " + ua);
 
     var url = req.protocol + "://" + req.headers.host + req.originalUrl;
-    url = unescape(url.replace('?_escaped_fragment_=', '#!'));
+    console.log(url);
+
+    url = _this.processUrl(url);
+
     if (req.method == "GET" && _this.matchUA(ua)) {
         _this.log("Verifying if has cache for: " + url);
         _this.hasCacheFor(url, function(hasCache) {
@@ -101,6 +107,22 @@ BigSEO.prototype.middleware = function(req, res, next) {
         _this.log('Cache Miss for ' + url);
         next();
     }
+};
+
+BigSEO.prototype.processUrl = function(url) {
+    var endsWith = function(u, suffix) {
+        return u.indexOf(suffix, u.length - suffix.length) !== -1;
+    };
+
+    url = unescape(url.replace('?_escaped_fragment_=0', '#!'));
+    url = unescape(url.replace('?_escaped_fragment_=', '#!'));
+
+    if(endsWith(url, '#!') || endsWith(url, '#!/')) {
+        url = url.replace('#!/', '');
+        url = url.replace('#!', '');
+    }
+
+    return url;
 };
 
 BigSEO.prototype.staticJS = function(req, res) {

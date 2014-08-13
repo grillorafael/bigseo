@@ -22,6 +22,8 @@ Things you can do if you use BigSEO:
 1. etc
 
 ## Release notes
+1. **0.6.1**
+    1. Fixing root url hashbang that wasn't matching
 1. **0.6.0**
     1. MAJOR FIX FOR ANGULARJS APPLICATION. PLEASE UPDATE
 1. **0.5.0**
