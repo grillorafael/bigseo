@@ -1,6 +1,6 @@
 {
   "name": "bigseo",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "BigSEO is a ExpresJS module built for apps who need a SEO Engine exclusively for web crawlers such as Google, Bing, Facebook, etc.",
   "keywords": "seo, engine, express, cache, crawler, bigseo, angularjs",
   "main": "index.js",

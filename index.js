@@ -59,6 +59,7 @@ function BigSEO(opts) {
 BigSEO.prototype.cache = function(req, res) {
     var body = req.body.dom;
     var rawUrl = req.body.url;
+
     var url = _this.encodeURL(rawUrl);
 
     _this.log("Saving cache: " + _this.cachePathFor(url));
@@ -81,6 +82,7 @@ BigSEO.prototype.middleware = function(req, res, next) {
     _this.log("UA: " + ua);
 
     var url = req.protocol + "://" + req.headers.host + req.originalUrl;
+    url = unescape(url.replace('?_escaped_fragment_=', '#!'));
     if (req.method == "GET" && _this.matchUA(ua)) {
         _this.log("Verifying if has cache for: " + url);
         _this.hasCacheFor(url, function(hasCache) {
