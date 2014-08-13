@@ -22,6 +22,8 @@ Things you can do if you use BigSEO:
 1. etc
 
 ## Release notes
+1. **0.6.0**
+    1. MAJOR FIX FOR ANGULARJS APPLICATION. PLEASE UPDATE
 1. **0.5.0**
     1. Independent angularjs module (You don't need to import bigseo.js anymore)
     1. Cache validation. Now your cache file, by default, is valid for 24 hours. You can change this to any value you want in hours. (Use 0 to regenerate your cache everytime)
@@ -132,6 +134,8 @@ angular.module('test').controller('IndexCtrl', ['$scope', '$location', 'API', 'b
 }]);
 
 ```
+
+### Remember to use hashbang for Urls. Here is a [simple guide](http://fdietz.github.io/recipes-with-angular-js/urls-routing-and-partials/client-side-routing-with-hashbang-urls.html).
 
 ## user-agents reference
 The user agents reference can be found [here](http://user-agent-string.info/list-of-ua/bots).
