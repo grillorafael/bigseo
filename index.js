@@ -59,6 +59,7 @@ function BigSEO(opts) {
 BigSEO.prototype.cache = function(req, res) {
     var body = req.body.dom;
     var rawUrl = req.body.url;
+    rawUrl = _this.processUrl(rawUrl);
     var url = _this.encodeURL(rawUrl);
 
     _this.validCacheFor(rawUrl, function(valid) {
