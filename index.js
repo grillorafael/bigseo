@@ -40,7 +40,8 @@ function BigSEO(opts) {
         "Mozilla/5.0 (compatible; AhrefsBot/5.0; +http://ahrefs.com/robot/)": true,
         "rogerbot/1.0 (http://moz.com/help/pro/what-is-rogerbot-, rogerbot-wherecat@moz.com)": true,
         "voltron": true,
-        "Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)": true
+        "Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)": true,
+        "Twitterbot/1.0": true
     };
 
     _.extend(this.opts, opts);
