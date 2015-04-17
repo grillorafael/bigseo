@@ -55,7 +55,7 @@ function BigSEO(opts) {
             });
         }
     });
-};
+}
 
 BigSEO.prototype.cache = function(req, res) {
     var body = req.body.dom;
